@@ -227,11 +227,21 @@ class TicketProvider{
     }
 
     public Collection<Ticket> searchTicket(int clientId, Date date){
+        // Предусловие
+        if(clientId < 0){
+            throw new RuntimeException("Ошибочный ID клиента");
+        }
+
+        // Выполнение основного кода подпрограммы
 
         Collection<Ticket> tickets = new ArrayList<>();
         for (Ticket ticket: database.getTickets()) {
             if (ticket.getCustomerId() == clientId && ticket.getDate().equals(date))
                 tickets.add(ticket);
+        }
+        // Постусловие
+        if(tickets.isEmpty()){
+            throw new RuntimeException("Билеты не найдены");
         }
         return tickets;
 
